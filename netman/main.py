@@ -18,7 +18,7 @@ from logging import DEBUG, getLogger
 from flask import request
 from flask.app import Flask
 
-from adapters.threading_lock_factory import ThreadingLockFactory
+from netman.adapters.threading_lock_factory import ThreadingLockFactory
 from netman.adapters.memory_storage import MemoryStorage
 from netman.api.api_utils import RegexConverter
 from netman.api.netman_api import NetmanApi

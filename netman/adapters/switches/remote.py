@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import __builtin__
 import importlib
 import json
 import uuid
 import warnings
 
+import builtins
 import requests
 
 from netman import raw_or_json
@@ -396,7 +396,7 @@ class RemoteSwitch(SwitchBase):
                     except:
                         exception = NetmanException('{error-module}.{error-class}: {error}'.format(**error))
                 else:
-                    exception = getattr(__builtin__, error["error-class"])(error["error"])
+                    exception = getattr(builtins, error["error-class"])(error["error"])
             else:
                 exception = Exception(error["error"])
 

@@ -23,7 +23,7 @@ class FlaskResponse(object):
         self.headers = response.headers
 
     def json(self):
-        return json.loads(self.response.data)
+        return json.loads(str(self.response.data))
 
 
 class FlaskRequest(object):

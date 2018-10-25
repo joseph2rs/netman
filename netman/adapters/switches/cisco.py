@@ -636,4 +636,4 @@ class NamedBond(object):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         if exc_type is UnknownInterface:
-            raise UnknownBond(self.number), None, exc_tb
+            raise UnknownBond(self.number).with_traceback(exc_tb)

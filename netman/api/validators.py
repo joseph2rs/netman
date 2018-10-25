@@ -215,7 +215,7 @@ class VrrpGroup:
 
 def is_session(data, **_):
     try:
-        json_data = json.loads(data)
+        json_data = json.loads(data.decode("utf-8"))
     except ValueError:
         raise BadRequest("Malformed content, should be a JSON object")
 

@@ -23,7 +23,7 @@ from netman.core.objects.exceptions import CouldNotConnect, CommandTimeout, Conn
 
 class TelnetClient(TerminalClient):
 
-    def __init__(self, host, username, password, port=23, prompt=('>', '#'),
+    def __init__(self, host, username, password, port=23, prompt=(b'>', b'#'),
                  connect_timeout=None, command_timeout=None, **_):
         self.prompt = prompt
         self.host = host
@@ -36,13 +36,13 @@ class TelnetClient(TerminalClient):
         self._login(username, password)
 
     def do(self, command, wait_for=None, include_last_line=False):
-        self.telnet.write(str(command) + "\r\n")
+        self.telnet.write(bytes(command + "\r\n", "utf-8"))
         result = self._read_until(wait_for)
 
         return _filter_input_and_empty_lines(command, include_last_line, result)
 
     def send_key(self, key, wait_for=None, include_last_line=False):
-        self.telnet.write(key)
+        self.telnet.write(bytes(key, "utf-8"))
         result = self._read_until(wait_for)
 
         return _filter_input_and_empty_lines(key, include_last_line, result)
@@ -54,10 +54,10 @@ class TelnetClient(TerminalClient):
         return self.full_log.splitlines()[-1]
 
     def _login(self, username, password):
-        self.telnet.read_until(":", self.command_timeout)
-        self.telnet.write(str(username) + "\r\n")
-        self.telnet.read_until(":", self.command_timeout)
-        self.telnet.write(str(password) + "\r\n")
+        self.telnet.read_until(b":", self.command_timeout)
+        self.telnet.write(bytes(username + "\r\n", "utf-8"))
+        self.telnet.read_until(b":", self.command_timeout)
+        self.telnet.write(bytes(password + "\r\n", "utf-8"))
 
         result = self._wait_for_successful_login()
         self.full_log += result[len(password):].lstrip()
